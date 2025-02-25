@@ -1,4 +1,4 @@
-using BookingTour.Areas.Admin.Controllers;
+Ôªøusing BookingTour.Areas.Admin.Controllers;
 using BookingTour.configservices;
 using BookingTour.Data;
 using BookingTour.Hubs;
@@ -14,25 +14,25 @@ using Twilio.TwiML.Voice;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// C?u hÏnh k?t n?i c? s? d? li?u
+// C?u hÃÅnh k?t n?i c? s? d? li?u
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddDbContext<YourExistingDbContextName>(options =>
        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), sqlOptions =>
        {
-           sqlOptions.CommandTimeout(280); // Th?i gian timeout l‡ 180 gi‚y (ho?c gi· tr? b?n mu?n)
+           sqlOptions.CommandTimeout(280); // Th?i gian timeout l√† 180 gi√¢y (ho?c gi√° tr? b?n mu?n)
        }));
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// C?u hÏnh Identity
+// C?u hÃÅnh Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddDefaultTokenProviders()
     .AddDefaultUI()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-// C?u hÏnh x·c th?c v?i Google v‡ Facebook
+// C?u hÃÅnh x√°c th?c v?i Google v√† Facebook
 builder.Services.AddAuthentication()
     .AddGoogle(options =>
     {
@@ -46,7 +46,7 @@ builder.Services.AddAuthentication()
         options.CallbackPath = "/signin-facebook";
     });
 
-// C?u hÏnh SmsService
+// C?u hÃÅnh SmsService
 builder.Services.AddTransient<SmsService>(provider =>
 {
     var configuration = provider.GetRequiredService<IConfiguration>();
@@ -57,15 +57,15 @@ builder.Services.AddTransient<SmsService>(provider =>
 });
 
 builder.Services.registerglogalizationandlocalization();
-// C?u hÏnh Razor Pages, Controllers v‡ Views
+// C?u hÃÅnh Razor Pages, Controllers v√† Views
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 builder.Services.AddSignalR();
 builder.Services.AddSignalR(options =>
 {
-    options.EnableDetailedErrors = true; // B?t thÙng b·o l?i chi ti?t
+    options.EnableDetailedErrors = true; // B?t th√¥ng b√°o l?i chi ti?t
 });
-// C?u hÏnh Cookie
+// C?u hÃÅnh Cookie
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = $"/Identity/Account/Login";
@@ -73,7 +73,7 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = $"/Home/AccessDenied";
 });
 
-// C?u hÏnh Session
+// C?u hÃÅnh Session
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -99,7 +99,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseSession(); // ThÍm `app.UseSession()` t?i ?‚y ?? kÌch ho?t Session
+app.UseSession(); // Th√™m `app.UseSession()` t?i ?√¢y ?? k√≠ch ho?t Session
 
 app.UseAuthentication();
 app.UseAuthorization();
