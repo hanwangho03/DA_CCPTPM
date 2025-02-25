@@ -1,0 +1,453 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Bài viết" xml:space="preserve">
+    <value>Article</value>
+  </data>
+  <data name="Bảo hiểm du lịch" xml:space="preserve">
+    <value>Travel insurance</value>
+  </data>
+  <data name="Bữa ăn" xml:space="preserve">
+    <value>Meal</value>
+  </data>
+  <data name="Cao đến Thấp" xml:space="preserve">
+    <value>High to Low</value>
+  </data>
+  <data name="Chuyến tour sẽ đưa bạn đến những vùng đất yên bình, nơi bạn có thể hòa mình vào thiên nhiên tươi đẹp, khám phá những con suối trong vắt, những ngọn núi hùng vĩ và những cánh đồng bao la. Bạn cũng sẽ được trải nghiệm những nét văn hóa độc đáo, thưởng thức món ăn đặc sản và giao lưu với người dân địa phương." xml:space="preserve">
+    <value>The tour will take you to peaceful lands where you can immerse yourself in beautiful nature, explore clear streams, majestic mountains and vast fields. You will also experience unique cultures, enjoy special dishes and interact with local people.</value>
+  </data>
+  <data name="chuyến đi mạo hiểm" xml:space="preserve">
+    <value>adventure trip</value>
+  </data>
+  <data name="Chỉnh sửa thông tin cá nhân" xml:space="preserve">
+    <value>Edit personal information</value>
+  </data>
+  <data name="Chọn loại tour" xml:space="preserve">
+    <value>Select tour type</value>
+  </data>
+  <data name="Chọn địa điểm đến" xml:space="preserve">
+    <value>Select destination</value>
+  </data>
+  <data name="Danh mục" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="Du thuyền" xml:space="preserve">
+    <value>Yacht</value>
+  </data>
+  <data name="Gía bao gồm" xml:space="preserve">
+    <value>Price includes</value>
+  </data>
+  <data name="Gía không bao gồm" xml:space="preserve">
+    <value>Price does not include</value>
+  </data>
+  <data name="Gửi Đánh Gía" xml:space="preserve">
+    <value>Submit Review</value>
+  </data>
+  <data name="Hoạt động giải trí ngoài trời" xml:space="preserve">
+    <value>Outdoor recreation</value>
+  </data>
+  <data name="Hành lý quá cước hơn qui định." xml:space="preserve">
+    <value>Excess baggage.</value>
+  </data>
+  <data name="Hãng hàng không" xml:space="preserve">
+    <value>Airlines</value>
+  </data>
+  <data name="Hóa đơn" xml:space="preserve">
+    <value>Bill</value>
+  </data>
+  <data name="Hướng dẫn viên" xml:space="preserve">
+    <value>Tour guide</value>
+  </data>
+  <data name="Họ tên" xml:space="preserve">
+    <value>Fullname</value>
+  </data>
+  <data name="Họ và Tên" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="Hộ chiếu nguyên vẹn không chỉnh sửa và còn hạn trên 06 tháng tính đến ngày kết thúc tour." xml:space="preserve">
+    <value>Passport intact, unedited and valid for more than 06 months from the end date of the tour.</value>
+  </data>
+  <data name="Khuyến mãi &amp; Giảm giá đặc biệt" xml:space="preserve">
+    <value>Special Promotions &amp; Discounts</value>
+  </data>
+  <data name="Khuyến mãi &amp;amp; Giảm giá đặc biệt" xml:space="preserve">
+    <value>Promotions &amp; Special Discounts</value>
+  </data>
+  <data name="Khách sạn" xml:space="preserve">
+    <value>Hotel</value>
+  </data>
+  <data name="Khám phá những điều tuyệt vời. Liên hệ với chúng tôi ngay" xml:space="preserve">
+    <value>Discover great things. Contact us now</value>
+  </data>
+  <data name="Liên hệ ngay" xml:space="preserve">
+    <value>Contact now</value>
+  </data>
+  <data name="Lưu" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Lưu ý" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="lượt đánh giá" xml:space="preserve">
+    <value>reviews</value>
+  </data>
+  <data name="Lịch sử đặt" xml:space="preserve">
+    <value>Order History</value>
+  </data>
+  <data name="LỊCH SỬ ĐẶT TOUR CỦA BẠN" xml:space="preserve">
+    <value>YOUR TOUR BOOKING HISTORY</value>
+  </data>
+  <data name="Lịch trình tour" xml:space="preserve">
+    <value>Tour schedule</value>
+  </data>
+  <data name="Miễn visa cho khách mang Quốc Tịch Việt Nam." xml:space="preserve">
+    <value>Visa exemption for Vietnamese citizens.</value>
+  </data>
+  <data name="Mô Tả" xml:space="preserve">
+    <value>Describe</value>
+  </data>
+  <data name="Một con sông nhỏ tên Duden chảy qua nơi này và cung cấp cho họ những thứ cần thiết. Đây là một quốc gia như thiên đường, nơi mà những phần câu đã nướng chảy vào miệng bạn." xml:space="preserve">
+    <value>A small river named Duden flows through their place and supplies them with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences melt into your mouth.</value>
+  </data>
+  <data name="Ngày khởi hành" xml:space="preserve">
+    <value>Departure date</value>
+  </data>
+  <data name="Ngày kết thúc" xml:space="preserve">
+    <value>End date</value>
+  </data>
+  <data name="Ngày Lập" xml:space="preserve">
+    <value>Date of Establishment</value>
+  </data>
+  <data name="Người lớn" xml:space="preserve">
+    <value>Adult</value>
+  </data>
+  <data name="Phương tiện" xml:space="preserve">
+    <value>Vehicle</value>
+  </data>
+  <data name="Phụ thu phòng đơn: 2,500,000 vnđ/khách/tour." xml:space="preserve">
+    <value>Single room surcharge: 2,500,000 VND/guest/tour.</value>
+  </data>
+  <data name="Quý khách chỉ cần hộ chiếu Việt Nam còn nguyên vẹn và có hạn sử dụng ít nhất 6 tháng tính từ ngày kết thúc tour." xml:space="preserve">
+    <value>You only need a Vietnamese passport that is intact and valid for at least 6 months from the end date of the tour.</value>
+  </data>
+  <data name="String" xml:space="preserve">
+    <value>Tên Tour</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value>Ngày Đặt</value>
+  </data>
+  <data name="String2" xml:space="preserve">
+    <value>Ngày</value>
+  </data>
+  <data name="String3" xml:space="preserve">
+    <value>Trạng Thái</value>
+  </data>
+  <data name="Sách hướng dẫn" xml:space="preserve">
+    <value>Instruction manual</value>
+  </data>
+  <data name="Số chuyến đi" xml:space="preserve">
+    <value>Number of trips</value>
+  </data>
+  <data name="Số lượng khách hàng" xml:space="preserve">
+    <value>Number of customers</value>
+  </data>
+  <data name="Số lượng nhân viên" xml:space="preserve">
+    <value>Number of employees</value>
+  </data>
+  <data name="Số lượng quốc gia" xml:space="preserve">
+    <value>Number of countries</value>
+  </data>
+  <data name="Số lượng trẻ em" xml:space="preserve">
+    <value>Number of children</value>
+  </data>
+  <data name="Số lượng trẻ nhỏ" xml:space="preserve">
+    <value>Number of children</value>
+  </data>
+  <data name="Số ngày" xml:space="preserve">
+    <value>Number of days</value>
+  </data>
+  <data name="Số điện thoại" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="Tham quan Cung điện Vương quốc, Chùa Phật Ngọc" xml:space="preserve">
+    <value>Visit the Royal Palace, Temple of the Emerald Buddha</value>
+  </data>
+  <data name="Tham quan Công Viên Khủng Long, biển Pattaya" xml:space="preserve">
+    <value>Visit Dinosaur Park, Pattaya Beach</value>
+  </data>
+  <data name="Thuê xe" xml:space="preserve">
+    <value>Car rental</value>
+  </data>
+  <data name="Thông tin của tôi" xml:space="preserve">
+    <value>My information</value>
+  </data>
+  <data name="Thông tin lưu ý" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="Thông tin tour" xml:space="preserve">
+    <value>Tour information</value>
+  </data>
+  <data name="Thông tin Visa" xml:space="preserve">
+    <value>Visa Information</value>
+  </data>
+  <data name="Thấp đến Cao" xml:space="preserve">
+    <value>Low to High</value>
+  </data>
+  <data name="tiếng anh" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="tiếng việt" xml:space="preserve">
+    <value>Vietnamese</value>
+  </data>
+  <data name="Tour" xml:space="preserve">
+    <value>Tour</value>
+  </data>
+  <data name="Tour du lịch mạo hiểm" xml:space="preserve">
+    <value>Adventure Tour</value>
+  </data>
+  <data name="Tour du lịch núi" xml:space="preserve">
+    <value>Mountain Tour</value>
+  </data>
+  <data name="Tour khám phá" xml:space="preserve">
+    <value>Discovery Tour</value>
+  </data>
+  <data name="Tour khám phá thiên nhiên và văn hóa địa phương sẽ đưa bạn đến những vùng đất hoang sơ, nơi bạn có thể tận hưởng vẻ đẹp tuyệt vời của rừng xanh, thác nước hùng vĩ và không khí trong lành. Ngoài việc tham quan các địa danh nổi tiếng, bạn còn có cơ hội tìm hiểu về văn hóa đặc sắc của người dân nơi đây qua các hoạt động truyền thống, ẩm thực độc đáo và những câu chuyện lịch sử thú vị. Đây sẽ là một hành trình đầy cảm hứng, giúp bạn thư giãn và khám phá những điều mới mẻ." xml:space="preserve">
+    <value>The Nature and Local Culture Discovery Tour will take you to unspoiled lands where you can enjoy the stunning beauty of green forests, majestic waterfalls and fresh air. In addition to visiting famous landmarks, you will also have the opportunity to learn about the unique culture of the local people through traditional activities, unique cuisine and interesting historical stories. This will be an inspiring journey, helping you relax and discover new things.</value>
+  </data>
+  <data name="Tour nghỉ dưỡng" xml:space="preserve">
+    <value>Resort Tour</value>
+  </data>
+  <data name="Tour sinh tồnn" xml:space="preserve">
+    <value>Survival Tour</value>
+  </data>
+  <data name="Tour trọn gói" xml:space="preserve">
+    <value>Package tour</value>
+  </data>
+  <data name="Tour yêu thích" xml:space="preserve">
+    <value>Favorite Tour</value>
+  </data>
+  <data name="Trang chủ" xml:space="preserve">
+    <value>Home</value>
+  </data>
+  <data name="Trang cá nhân" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="Trải nghiệm kỳ nghĩ tuyệt vời" xml:space="preserve">
+    <value>Great vacation experience </value>
+  </data>
+  <data name="Trải nghiệm thú vị trong tour" xml:space="preserve">
+    <value>Fun experience on tour</value>
+  </data>
+  <data name="Trẻ em từ 03 tuổi trở lên phải đóng tiền tips, dưới 03 tuổi được miễn tiền tips." xml:space="preserve">
+    <value>Children 3 years and older must pay tips, under 3 years old are exempt from tips.</value>
+  </data>
+  <data name="Tên khách sạn" xml:space="preserve">
+    <value>Hotel name</value>
+  </data>
+  <data name="Tên loại tour" xml:space="preserve">
+    <value>Tour type name</value>
+  </data>
+  <data name="Tên phương tiện" xml:space="preserve">
+    <value>media name</value>
+  </data>
+  <data name="Tên đăng nhập" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="Tìm kiếm" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Tổng giá:" xml:space="preserve">
+    <value>Total price:</value>
+  </data>
+  <data name="Tổng Số Tiền" xml:space="preserve">
+    <value>Total Amount</value>
+  </data>
+  <data name="Tổng thanh toán" xml:space="preserve">
+    <value>Total payment</value>
+  </data>
+  <data name="Voucher của tôi" xml:space="preserve">
+    <value>My Voucher</value>
+  </data>
+  <data name="Vé máy bay" xml:space="preserve">
+    <value>Airline tickets</value>
+  </data>
+  <data name="Vé máy bay khứ hồi SG - BK - SG (tùy ngày quý khách chọn)" xml:space="preserve">
+    <value>Round trip airfare SG - BK - SG (depending on the date you choose)</value>
+  </data>
+  <data name="Xa xôi, sau những dãy núi từ những quốc gia Vokalia và Consonantia, có những văn bản mù. Chúng sống tách biệt ở Bookmarksgrove ngay tại bờ biển của Semantics, một đại dương ngôn ngữ rộng lớn." xml:space="preserve">
+    <value>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. They live in Bookmarksgrove, on the coast of the Semantics, a vast language ocean.</value>
+  </data>
+  <data name="Xe ô tô máy lạnh phục vụ riêng cho đoàn suốt tuyến." xml:space="preserve">
+    <value>Private air-conditioned car for the group throughout the route.</value>
+  </data>
+  <data name="Xem Video Tour" xml:space="preserve">
+    <value>Watch Video Tour</value>
+  </data>
+  <data name="Xã xa, đằng sau những ngọn núi chữ, xa khỏi các quốc gia Vokalia và Consonantia, có những văn bản mù sống. Tách biệt chúng sống trong Bookmarksgrove ngay tại bờ biển của Semantics, một đại dương ngôn ngữ rộng lớn." xml:space="preserve">
+    <value>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Isolated they live in Bookmarksgrove right at the coast of the Semantics, a vast language ocean.</value>
+  </data>
+  <data name="Đi máy bay từ Bangkok đến Hà Nội" xml:space="preserve">
+    <value>Fly from Bangkok to Hanoi</value>
+  </data>
+  <data name="Đi máy bay từ Hà Nội đến Bangkok" xml:space="preserve">
+    <value>Fly from Hanoi to Bangkok</value>
+  </data>
+  <data name="Đi xe bus từ Bangkok đến Pattaya" xml:space="preserve">
+    <value>Take the bus from Bangkok to Pattaya</value>
+  </data>
+  <data name="Đi xe bus từ Pattaya đến Bangkok" xml:space="preserve">
+    <value>Take the bus from Pattaya to Bangkok</value>
+  </data>
+  <data name="Điểm khởi hành" xml:space="preserve">
+    <value>Departure point</value>
+  </data>
+  <data name="Điểm đén phổ biến" xml:space="preserve">
+    <value>Popular destinations</value>
+  </data>
+  <data name="Điểm đến phổ biến" xml:space="preserve">
+    <value>Popular destinations</value>
+  </data>
+  <data name="đánh giá" xml:space="preserve">
+    <value>Evaluate</value>
+  </data>
+  <data name="Đánh giá gần đây" xml:space="preserve">
+    <value>Recent Reviews</value>
+  </data>
+  <data name="Đánh giá khách hàng về" xml:space="preserve">
+    <value>Customer reviews about</value>
+  </data>
+  <data name="đăng ký làm nhà cung cấp" xml:space="preserve">
+    <value>Register as a supplier</value>
+  </data>
+  <data name="Đăng Ký Nhà Cung Cấp Tour" xml:space="preserve">
+    <value>Tour Provider Registration</value>
+  </data>
+  <data name="Đường sắt" xml:space="preserve">
+    <value>Railway</value>
+  </data>
+  <data name="Đặt tour" xml:space="preserve">
+    <value>Book tour</value>
+  </data>
+  <data name="Địa chỉ" xml:space="preserve">
+    <value>Adress</value>
+  </data>
+  <data name="Ở" xml:space="preserve">
+    <value>In</value>
+  </data>
+</root>

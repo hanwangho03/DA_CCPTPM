@@ -1,0 +1,442 @@
+﻿@model List<object>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+<div class="container">
+    <h2>Thống Kê Đặt Tour</h2>
+
+    <!-- Biểu đồ thống kê theo tuần -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="body">
+                    <h4>Thống Kê Theo Tuần</h4>
+                    <canvas id="weeklyStatisticsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Biểu đồ thống kê theo tháng -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="body">
+                    <h4>Thống Kê Theo Tháng</h4>
+                    <canvas id="bookingStatisticsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Biểu đồ thống kê theo quý -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="body">
+                    <h4>Thống Kê Theo Quý</h4>
+                    <canvas id="quarterlyStatisticsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Biểu đồ thống kê theo năm -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="body">
+                    <h4>Thống Kê Theo Năm</h4>
+                    <canvas id="yearlyStatisticsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="header">
+                    <h2>Xếp Hạng Tour Được Đặt Nhiều Nhất</h2>
+                </div>
+                <div class="body">
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Tên Tour</th>
+                                <th>Số Lượt Đặt</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var tour in ViewBag.TopBookedTours)
+                            {
+                                <tr>
+                                    <td>@tour.TourName</td>
+                                    <td>@tour.TotalBookings</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="card">
+            <div class="header">
+                <h2>Thống Kê Doanh Thu</h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="javascript:void(0);" class=" waves-effect waves-block">Hành động</a></li>
+                            <li><a href="javascript:void(0);" class=" waves-effect waves-block">Hành động khác</a></li>
+                            <li><a href="javascript:void(0);" class=" waves-effect waves-block">Một điều gì đó khác</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="body">
+                <canvas id="revenueChart" class="dashboard-donut-chart"></canvas>
+            </div>
+        </div>
+    </div>
+   
+</div>
+
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('revenueChart').getContext('2d');
+        var data = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+
+        var totalRevenue = data.reduce((sum, d) => sum + d.TotalRevenue, 0);
+        var chart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: data.map(d => `Tháng ${d.Month}`),
+                datasets: [{
+                    label: 'Doanh thu',
+                    data: data.map(d => d.TotalRevenue),
+                    backgroundColor: ['#e91e63', '#00bcd4', '#ff9800', '#009688', '#607d8b'],
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                var value = context.raw;
+                                var percentage = ((value / totalRevenue) * 100).toFixed(2);
+                                return `${context.label}: ${value} VNĐ (${percentage}%)`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('bookingStatisticsChart').getContext('2d');
+        
+        // Chuyển đổi dữ liệu từ model
+        var bookingData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model));
+
+        // Tạo mảng tháng, doanh thu và số lượt đặt
+        var labels = bookingData.map(d => d.Month);
+        var revenueData = bookingData.map(d => d.TotalRevenue);
+        var bookingsData = bookingData.map(d => d.TotalBookings);
+
+        // Khởi tạo biểu đồ
+        var bookingStatisticsChart = new Chart(ctx, {
+            type: 'bar', // Hoặc 'line' tùy thuộc vào cách bạn muốn hiển thị
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Doanh Thu',
+                        data: revenueData,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Số Lượt Đặt',
+                        data: bookingsData,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Giá Trị (VNĐ)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Tháng'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Biểu đồ thống kê theo tuần -->
+    <script>
+        var ctxWeekly = document.getElementById('weeklyStatisticsChart').getContext('2d');
+        var weeklyData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model)); // Dữ liệu thống kê tuần
+
+        // Nhóm và tổng hợp dữ liệu theo tuần và tháng
+        var groupedWeeklyData = weeklyData.reduce((acc, curr) => {
+            // Nếu chưa có tháng này trong acc, tạo một mảng cho nó
+            if (!acc[curr.Month]) {
+                acc[curr.Month] = [];
+            }
+            // Thêm dữ liệu vào mảng của tháng tương ứng
+            acc[curr.Month].push(curr);
+            return acc;
+        }, {});
+
+        // Tạo nhãn tuần kèm theo tháng từ dữ liệu
+        var labelsWeekly = [];
+        var revenueWeekly = [];
+        var bookingsWeekly = [];
+
+        // Duyệt qua từng tháng và tuần trong tháng
+        Object.keys(groupedWeeklyData).forEach(month => {
+            groupedWeeklyData[month].forEach((data, index) => {
+                labelsWeekly.push('Tuần ' + (index + 1) + ' (Tháng ' + month + ')'); // Tạo nhãn cho tuần kèm tháng
+                revenueWeekly.push(data.TotalRevenue); // Dữ liệu doanh thu
+                bookingsWeekly.push(data.TotalBookings); // Dữ liệu số lượt đặt
+            });
+        });
+
+        // Vẽ biểu đồ với dữ liệu đã nhóm
+        var weeklyChart = new Chart(ctxWeekly, {
+            type: 'bar',
+            data: {
+                labels: labelsWeekly, // Hiển thị tuần kèm theo tháng
+                datasets: [
+                    {
+                        label: 'Doanh Thu',
+                        data: revenueWeekly, // Dữ liệu doanh thu
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Số Lượt Đặt',
+                        data: bookingsWeekly, // Dữ liệu số lượt đặt
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Giá Trị (VNĐ)' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Tuần trong Tháng' }
+                    }
+                }
+            }
+        });
+    </script>
+
+
+    <!-- Biểu đồ thống kê theo tháng -->
+    <script>
+        var ctxMonth = document.getElementById('monthStatisticsChart').getContext('2d');
+
+        var monthData = data.map(d => d.Month);
+        var monthRevenue = data.map(d => d.MonthRevenue);
+        var monthBookings = data.map(d => d.MonthBookings);
+
+        var monthChart = new Chart(ctxMonth, {
+            type: 'bar',
+            data: {
+                labels: monthData,
+                datasets: [
+                    {
+                        label: 'Doanh Thu Theo Tháng',
+                        data: monthRevenue,
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Số Lượt Đặt Theo Tháng',
+                        data: monthBookings,
+                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Giá Trị (VNĐ)' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Tháng' }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <!-- Biểu đồ thống kê theo quý -->
+    <script>
+        var ctxQuarterly = document.getElementById('quarterlyStatisticsChart').getContext('2d');
+        var quarterlyData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model)); // Dữ liệu thống kê quý
+
+        // Tạo nhãn quý kèm theo năm từ dữ liệu, kết hợp cả Quarter và Year
+        var labelsQuarterly = [];
+        var revenueQuarterly = [];
+        var bookingsQuarterly = [];
+
+        // Nhóm dữ liệu theo quý và năm, cộng dồn doanh thu và số lượt đặt nếu trùng quý và năm
+        quarterlyData.forEach(d => {
+            var label = `Quý ${d.Quarter} (${d.Year})`;
+
+            // Kiểm tra xem label đã tồn tại trong labelsQuarterly chưa
+            var index = labelsQuarterly.indexOf(label);
+            if (index === -1) {
+                // Nếu chưa tồn tại, thêm nhãn và giá trị doanh thu, số lượt đặt
+                labelsQuarterly.push(label);
+                revenueQuarterly.push(d.TotalRevenue);
+                bookingsQuarterly.push(d.TotalBookings);
+            } else {
+                // Nếu đã tồn tại, cộng dồn doanh thu và số lượt đặt vào dữ liệu cũ
+                revenueQuarterly[index] += d.TotalRevenue;
+                bookingsQuarterly[index] += d.TotalBookings;
+            }
+        });
+
+        var quarterlyChart = new Chart(ctxQuarterly, {
+            type: 'bar',
+            data: {
+                labels: labelsQuarterly, // Hiển thị quý kèm theo năm
+                datasets: [
+                    {
+                        label: 'Doanh Thu',
+                        data: revenueQuarterly, // Dữ liệu doanh thu
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Số Lượt Đặt',
+                        data: bookingsQuarterly, // Dữ liệu số lượt đặt
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Giá Trị (VNĐ)' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Quý trong Năm' }
+                    }
+                }
+            }
+        });
+    </script>
+
+    <!-- Biểu đồ thống kê theo năm -->
+    <script>
+        var ctxYearly = document.getElementById('yearlyStatisticsChart').getContext('2d');
+        var yearlyData = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model)); // Dữ liệu thống kê năm
+
+        // Lọc năm hiện tại và lấy 5 năm gần nhất
+        var currentYear = new Date().getFullYear();
+        var filteredData = yearlyData.filter(d => d.Year >= currentYear - 4); // Lọc 5 năm gần nhất
+
+        // Nhóm dữ liệu theo năm và cộng dồn doanh thu và số lượt đặt
+        var groupedData = filteredData.reduce((acc, curr) => {
+            // Kiểm tra xem năm đã có trong acc chưa, nếu có thì cộng dồn, nếu không thì thêm mới
+            if (!acc[curr.Year]) {
+                acc[curr.Year] = { Year: curr.Year, TotalRevenue: 0, TotalBookings: 0 };
+            }
+            acc[curr.Year].TotalRevenue += curr.TotalRevenue;
+            acc[curr.Year].TotalBookings += curr.TotalBookings;
+            return acc;
+        }, {});
+
+        // Chuyển đổi groupedData thành mảng để vẽ biểu đồ
+        var labelsYearly = Object.values(groupedData).map(d => d.Year);
+        var revenueYearly = Object.values(groupedData).map(d => d.TotalRevenue);
+        var bookingsYearly = Object.values(groupedData).map(d => d.TotalBookings);
+
+        var yearlyChart = new Chart(ctxYearly, {
+            type: 'bar',
+            data: {
+                labels: labelsYearly,
+                datasets: [
+                    {
+                        label: 'Doanh Thu',
+                        data: revenueYearly,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    },
+                    {
+                        label: 'Số Lượt Đặt',
+                        data: bookingsYearly,
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Giá Trị (VNĐ)' }
+                    },
+                    x: {
+                        title: { display: true, text: 'Năm' }
+                    }
+                }
+            }
+        });
+    </script>
+
+
+}

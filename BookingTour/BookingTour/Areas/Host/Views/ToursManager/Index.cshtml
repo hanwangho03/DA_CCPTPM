@@ -1,0 +1,229 @@
+﻿@model IEnumerable<BookingTour.Models.Tour>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutHost.cshtml";
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+
+    </div>
+}
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="card">
+        <div class="header">
+            <h2> DANH SÁCH TOUR </h2>
+            
+            <form method="get" action="@Url.Action("Index")" style="position: absolute; top: 10px; right: 10px; ">
+                <input type="text" name="searchTerm" value="@ViewBag.SearchTerm"
+                       placeholder="Tìm kiếm..."
+                       style="padding: 8px 12px; font-size: 14px; border: 1px solid #ddd; border-radius: 6px; width: 200px; outline: none; transition: border-color 0.3s;">
+                <button type="submit"
+                        style="padding: 8px 15px; font-size: 14px; border: none; background-color: #007bff; color: white; border-radius: 6px; cursor: pointer; transition: background-color 0.3s, box-shadow 0.3s;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                    </svg>
+                </button>
+            </form>
+            </div>
+    <div class="card-header bg-dark text-white">
+
+            <!-- Button to trigger the modal -->
+            <!-- Button to trigger modal -->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createPromotionModal" style="margin-left:10px; margin-bottom:5px; margin-top:10px;">
+                Tạo Tour
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="createPromotionModal" tabindex="-1" aria-labelledby="createPromotionModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="createTourModalLabel">Tạo Tour Mới</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Tour creation form -->
+                            <form asp-action="Create" enctype="multipart/form-data">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                <!-- Tour Name -->
+                                <div class="form-group" style="margin-bottom: 20px;">
+                                    <label class="control-label" style="font-weight: bold;">Tên Tour</label>
+                                    <input name="Name" class="form-control" style="padding: 10px; border-radius: 5px;" />
+                                </div>
+
+                                <!-- Tour Description -->
+                                <div class="form-group" style="margin-bottom: 20px;">
+                                    <label class="control-label" style="font-weight: bold;">Mô tả</label>
+                                    <input name="Description" class="form-control" style="padding: 10px; border-radius: 5px;" />
+                                </div>
+
+                                <!-- Avatar -->
+                                <div class="form-group" style="margin-bottom: 20px;">
+                                    <label for="avatarFile" class="control-label" style="font-weight: bold;">Ảnh đại diện</label>
+                                    <input type="file" name="avatarFile" class="form-control" style="padding: 10px;" />
+                                </div>
+
+                                <!-- Additional Images -->
+                                <div class="form-group" style="margin-bottom: 20px;">
+                                    <label class="control-label" style="font-weight: bold;">Ảnh bổ sung</label>
+                                    <input type="file" name="imageFiles" multiple class="form-control" style="padding: 10px;" />
+                                </div>
+
+                                <!-- Start Date -->
+                                <div class="form-group" style="margin-bottom: 20px;">
+                                    <label class="control-label" style="font-weight: bold;">Ngày bắt đầu</label>
+                                    <input name="StartDate" class="form-control" type="date" style="padding: 10px; border-radius: 5px;" />
+                                </div>
+
+                                <!-- End Date -->
+                                <div class="form-group" style="margin-bottom: 20px;">
+                                    <label class="control-label" style="font-weight: bold;">Ngày kết thúc</label>
+                                    <input name="EndDate" class="form-control" type="date" style="padding: 10px; border-radius: 5px;" />
+                                </div>
+
+                                <!-- Max Quantity -->
+                                <div class="form-group" style="margin-bottom: 20px;">
+                                    <label class="control-label" style="font-weight: bold;">Số lượng</label>
+                                    <input name="MaxQuantity" class="form-control" style="padding: 10px; border-radius: 5px;" />
+                                </div>
+
+                                <!-- Price -->
+                                <div class="form-group" style="margin-bottom: 20px;">
+                                    <label class="control-label" style="font-weight: bold;">Gía</label>
+                                    <input name="Price" class="form-control" style="padding: 10px; border-radius: 5px;" />
+                                </div>
+
+                                <!-- Tour Type -->
+                                <div class="form-group" style="margin-bottom: 20px;">
+                                    <select name="IdType" asp-items="ViewBag.IdType" style="padding: 10px; border-radius: 5px;"></select>
+                                </div>
+
+                                <!-- Transportation -->
+                                <div class="form-group" style="margin-bottom: 20px;">
+                                    <select name="IdTrans" asp-items="ViewBag.IdTrans" style="padding: 10px; border-radius: 5px;"></select>
+                                </div>
+
+                                <!-- Hotel -->
+                                <div class="form-group" style="margin-bottom: 20px;">
+                                    <select name="IdHotel" asp-items="ViewBag.IdHotel" style="padding: 10px; border-radius: 5px;"></select>
+                                </div>
+
+                                <!-- Submit Button -->
+                                <div class="form-group" style="margin-top: 20px;">
+                                    <input type="submit" value="Tạo Tour" class="btn btn-primary" style="padding: 10px 20px; font-size: 1.1em; border-radius: 5px;" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+    </div>
+
+    <div class="card-body">
+        <p class="text-right mb-3">
+            
+        </p>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Tên Tour</th>
+                            <th>Hình ảnh</th>
+                            <th>Giá</th>
+                        <th>Khách Sạn</th>
+                        <th>Loại Tour</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                       
+                            <td>      <img src="@Url.Content("~/images/" + item.Image)"width="100px" alt="Ảnh" /></td>
+                         @*    <td>@Html.DisplayFor(modelItem => item.StartDate)</td>
+                            <td>@Html.DisplayFor(modelItem => item.EndDate)</td>
+                            <td>@Html.DisplayFor(modelItem => item.MaxQuantity)</td> *@
+                            <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                            <td>@Html.DisplayFor(modelItem => item.IdHotelNavigation.Name)</td>  
+                            <td>@Html.DisplayFor(modelItem => item.IdTypeNavigation.Name)</td>
+                            <td>
+                                <div class="button-group" style=" align-items: center;   gap: 10px; display: flex;">
+                                    <a class="btn btn-sm btn-info" asp-action="Edit" asp-route-id="@item.IdTour">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                            <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                            <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+                                        </svg>
+                                    </a>
+                                    <a class="btn btn-sm btn-secondary" asp-action="Details" asp-route-id="@item.IdTour">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-journal-text" viewBox="0 0 16 16">
+                                            <path d="M5 10.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0-2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
+                                            <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2" />
+                                            <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z" />
+                                        </svg>
+                                    </a>
+                                        <form asp-action="DeleteConfirmed" asp-controller="ToursManager" method="post" style="margin-bottom: 0; margin-right: 10px;">
+                                            <input type="hidden"name="id" asp-for="@item.IdTour" />
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này không?');">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3" viewBox="0 0 16 16">
+                                                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5" />
+                                                </svg>
+                                            </button>
+                                        </form>
+                                </div>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pagination Controls -->
+        <div class="card-footer">
+            <div class="d-flex justify-content-center" style="text-align:center;">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination">
+                        <li class="page-item @(ViewBag.CurrentPage == 1 ? "disabled" : "")">
+                            <a class="page-link" asp-action="Index" asp-route-page="@(ViewBag.CurrentPage - 1)">Trước</a>
+                        </li>
+
+                        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                        {
+                            <li class="page-item @(ViewBag.CurrentPage == i ? "active" : "")">
+                                <a class="page-link" asp-action="Index" asp-route-page="@i">@i</a>
+                            </li>
+                        }
+
+                        <li class="page-item @(ViewBag.CurrentPage == ViewBag.TotalPages ? "disabled" : "")">
+                            <a class="page-link" asp-action="Index" asp-route-page="@(ViewBag.CurrentPage + 1)">Sau</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+</div>
+</div>
+@section Scripts {
+<script>
+        document.getElementById('createTourModal').addEventListener('show.bs.modal', function (event) {
+            console.log('Modal is shown!');
+        });
+
+</script>
+}
