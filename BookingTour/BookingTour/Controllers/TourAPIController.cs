@@ -52,16 +52,10 @@ namespace BookingTour.Controllers
             return Ok(response);
         }
 
-        // GET: api/tourapi/{id}
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTour(long id)
         {
             var tour = await _context.Tours
-                .Include(t => t.IdHotelNavigation)
-                .Include(t => t.IdTransNavigation)
-                .Include(t => t.IdTypeNavigation)
-                .Include(t => t.Comments)
-                .Include(t => t.UsersFavoriteTours)
                 .FirstOrDefaultAsync(t => t.IdTour == id);
 
             if (tour == null)
@@ -70,7 +64,7 @@ namespace BookingTour.Controllers
             }
 
             var images = await _context1.Images.Where(i => i.IdTour == tour.IdTour).ToListAsync();
-            tour.Images = images; // Giả sử tên thuộc tính đã được sửa thành Images trong model Tour
+            tour.images = images;
 
             return Ok(tour);
         }
