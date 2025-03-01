@@ -10,6 +10,7 @@ public partial class TourDetail
     public long IdDes { get; set; }
 
     public string? Itinerary { get; set; }
+    public DateTime? Date { get; set; }
 
     public virtual Destination IdDesNavigation { get; set; }   
 
