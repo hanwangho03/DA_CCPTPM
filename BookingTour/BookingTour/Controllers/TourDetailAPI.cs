@@ -94,7 +94,7 @@ namespace BookingTour.Controllers
         // POST: api/tourdetailapi
         [HttpPost]
         [Authorize] // Yêu cầu đăng nhập
-        public async Task<IActionResult> CreateTourDetail([FromBody] TourDetail tourDetail)
+        public async Task<IActionResult> CreateTourDetail([FromBody] TourDetailCreateDto tourDetailDto)
         {
             if (!ModelState.IsValid)
             {
@@ -102,13 +102,26 @@ namespace BookingTour.Controllers
             }
 
             // Kiểm tra Tour và Destination có tồn tại không
-            var tourExists = await _context.Tours.AnyAsync(t => t.IdTour == tourDetail.IdTour);
+            var tourExists = await _context.Tours.AnyAsync(t => t.IdTour == tourDetailDto.IdTour);
+            var desExists = await _context.Destinations.AnyAsync(d => d.IdDes == tourDetailDto.IdDes);
 
             if (!tourExists)
             {
                 return BadRequest(new { message = "Invalid Tour ID" });
             }
-            
+            if (!desExists)
+            {
+                return BadRequest(new { message = "Invalid Destination ID" });
+            }
+
+            // Tạo đối tượng TourDetail từ DTO
+            var tourDetail = new TourDetail
+            {
+                IdTour = tourDetailDto.IdTour,
+                IdDes = tourDetailDto.IdDes,
+                Itinerary = tourDetailDto.Itinerary,
+                Date = tourDetailDto.Date ?? DateTime.UtcNow // Gán giá trị mặc định nếu Date là NULL
+            };
 
             _context.TourDetails.Add(tourDetail);
             await _context.SaveChangesAsync();
