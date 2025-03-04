@@ -7,7 +7,7 @@
 
 
 @* @{
-   
+
   var isFavorited = Model.UsersFavoriteTours.Any(f => f.IdTour == Model.IdTour && f.Id == ViewBag.UserId);
     /* var imagesList = Model.images.ToList(); */ // Chuyển đổi ICollection thành List
 } *@
@@ -49,6 +49,7 @@
         .thumbnail:hover {
             border-color: #ff5050;
         }
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
@@ -95,7 +96,7 @@
             text-transform: uppercase; /* Chuyển tất cả chữ thành in hoa */
             color: black; /* Màu sắc có thể thay đổi theo ý bạn */
             margin-bottom: 20px; /* Khoảng cách phía dưới */
-            text-align: ; /* Căn giữa tiêu đề */
+            text-align:; /* Căn giữa tiêu đề */
         }
 
         .tour-pricing {
@@ -161,7 +162,7 @@
                 font-size: 32px;
             }
 
-    
+
 
         .review-count {
             font-weight: 400;
@@ -239,7 +240,7 @@
 <div style="background-color:#ecf0f5">
 
     <div class="container">
-     
+
         <section class="content-header">
             <ol class="breadcrumb" itemscope="" itemtype="http://schema.org/BreadcrumbList">
                 <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem">
@@ -247,11 +248,11 @@
                         <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z" />
                     </svg>
                     <a itemprop="item" href="@Url.Action("Index", "Tours")">
-                        <i class="fa fa-home"></i> <span itemprop="name" >@_localizer["Trang chủ"] / </span>
+                        <i class="fa fa-home"></i> <span itemprop="name">@_localizer["Trang chủ"] / </span>
                     </a>
                     <meta itemprop="position" content="1">
                 </li>
-               
+
                 <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem" class="active hidden-xs">
                     <a itemprop="item" class="link-detail-value" href="@Url.Action("Details", "Tours", new { id = Model.IdTour })">
                         <span itemprop="name">@Model.Name </span> <!-- Hiển thị tên tour -->
@@ -259,12 +260,12 @@
                     <meta itemprop="position" content="3">
                 </li>
                 <li itemprop="itemListElement" itemscope="" itemtype="http://schema.org/ListItem" class="active hidden-xs">
-                    
+
                 </li>
             </ol>
         </section>
 
-    <h1 class="tour-title">@Model.Name</h1>
+        <h1 class="tour-title">@Model.Name</h1>
         <div class="comment-count">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-dots" viewBox="0 0 16 16">
                 <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0m4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2" />
@@ -276,65 +277,65 @@
         {
             var imageList = Model.images.ToList(); // Chuyển đổi ICollection<Image> thành List<Image>
 
-           @*  <div class="tour-info-container" style="max-width: 800px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;"> *@
-                <div class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0;">
-                    <div class="limited-stock" style="font-size: 14px; display: flex; align-items: center;">
-                        <span class="badge badge-danger" style="margin-right: 10px;">@_localizer["Số Lượng Có Hạn"]</span>
-                   
-                    </div>
-                    <div class="tour-price" style="text-align: right; font-size: 18px;">
-                        <div class="tour-duration" style="font-size: 16px; color: #ff5050;">Tour 5 Ngày</div>
-                     
-                    </div>
+            @*  <div class="tour-info-container" style="max-width: 800px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 10px;"> *@
+            <div class="header" style="display: flex; justify-content: space-between; align-items: center; padding: 10px 0;">
+                <div class="limited-stock" style="font-size: 14px; display: flex; align-items: center;">
+                    <span class="badge badge-danger" style="margin-right: 10px;">@_localizer["Số Lượng Có Hạn"]</span>
+
                 </div>
+                <div class="tour-price" style="text-align: right; font-size: 18px;">
+                    <div class="tour-duration" style="font-size: 16px; color: #ff5050;">Tour 5 Ngày</div>
 
-                <!-- Carousel for tour images -->
-                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-                    <!-- Indicators -->
-                    <ol class="carousel-indicators">
-                        @for (int i = 0; i < imageList.Count; i++)
-                        {
-                            <li data-target="#carouselExampleIndicators" data-slide-to="@i" class="@(i == 0 ? "active" : "")"></li>
-                        }
-                    </ol>
-
-                    <!-- Carousel items -->
-                    <div class="carousel-inner">
-                        @for (int i = 0; i < imageList.Count; i++)
-                        {
-                            var imagePath = Url.Content("~/images/" + imageList[i].ImageUrl);
-                            <div class="carousel-item @(i == 0 ? "active" : "")">
-                                <img src="@imagePath" class="d-block w-100 img-fluid" alt="Image @i" style="max-height: 400px; object-fit: cover; width: 100%;">
-                            </div>
-                        }
-                    </div>
-
-                    <!-- Controls -->
-                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Next</span>
-                    </a>
                 </div>
+            </div>
 
-                <!-- List of small images below the carousel -->
-                <div class="image-thumbnails" style="display: flex; justify-content: center; margin-top: 15px;">
+            <!-- Carousel for tour images -->
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    @for (int i = 0; i < imageList.Count; i++)
+                    {
+                        <li data-target="#carouselExampleIndicators" data-slide-to="@i" class="@(i == 0 ? "active" : "")"></li>
+                    }
+                </ol>
+
+                <!-- Carousel items -->
+                <div class="carousel-inner">
                     @for (int i = 0; i < imageList.Count; i++)
                     {
                         var imagePath = Url.Content("~/images/" + imageList[i].ImageUrl);
-                        <img src="@imagePath" class="thumbnail" data-target="#carouselExampleIndicators" data-slide-to="@i"
-                             style="width: 80px; height: 80px; object-fit: cover; margin: 0 5px; cursor: pointer; border: 2px solid transparent; transition: border 0.3s;">
+                        <div class="carousel-item @(i == 0 ? "active" : "")">
+                            <img src="@imagePath" class="d-block w-100 img-fluid" alt="Image @i" style="max-height: 400px; object-fit: cover; width: 100%;">
+                        </div>
                     }
                 </div>
 
-                <!-- Tour Information -->
-               
+                <!-- Controls -->
+                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+
+            <!-- List of small images below the carousel -->
+            <div class="image-thumbnails" style="display: flex; justify-content: center; margin-top: 15px;">
+                @for (int i = 0; i < imageList.Count; i++)
+                {
+                    var imagePath = Url.Content("~/images/" + imageList[i].ImageUrl);
+                    <img src="@imagePath" class="thumbnail" data-target="#carouselExampleIndicators" data-slide-to="@i"
+                         style="width: 80px; height: 80px; object-fit: cover; margin: 0 5px; cursor: pointer; border: 2px solid transparent; transition: border 0.3s;">
+                }
+            </div>
+
+            <!-- Tour Information -->
+
             @* </div> *@
 
-           
+
 
         }
         else
@@ -342,7 +343,7 @@
             <p>Không có hình ảnh nào cho tour này.</p>
         }
 
-     
+
         <div class="owl-single dots-absolute owl-carousel">
             <img src="~/images/slider-1.jpg" alt="Free HTML Template by Untree.co" class="img-fluid rounded-20">
             <img src="~/images/slider-2.jpg" alt="Free HTML Template by Untree.co" class="img-fluid rounded-20">
@@ -389,7 +390,7 @@
                     <p style="margin: 5px 0;"><strong>@_localizer["Số ngày"]:</strong> @Model.MaxQuantity ngày</p>
                     <p style="margin: 5px 0;"><strong>@_localizer["Điểm khởi hành"]:</strong> Hà Nội</p>
                     <p style="margin: 5px 0;"><strong>@_localizer["Phương tiện"]:</strong> @Model.IdTransNavigation.Name</p>
-          
+
                 </div>
 
                 <div class="tour-info" style="text-align: left;">
@@ -477,7 +478,7 @@
 
                     <!-- Phần collapse -->
                     <div class="collapse show" id="priceIncluded">
-                      
+
                         <ul>
                             <li>@_localizer["Vé máy bay khứ hồi SG - BK - SG (tùy ngày quý khách chọn)"]</li>
                             <li>@_localizer["Hành lý 07kg xách tay + 20kg hành lý ký gửi. Đã bao gồm các loại thuế phí phi trường hai nước…"]</li>
@@ -514,13 +515,13 @@
                 </div>
 
                 <div class="rating">
-                   <h5 class="text-center"> @_localizer["Đánh giá khách hàng về"] @Model.Name </h5>
+                    <h5 class="text-center"> @_localizer["Đánh giá khách hàng về"] @Model.Name </h5>
 
-<!-- Hiển thị điểm đánh giá tổng quan và số lượt đánh giá -->
-<div style="display: flex; align-items: center; justify-content: center; margin: 10px 0;">
-    <span style="font-size: 24px; font-weight: bold; color: #FFD700; margin-right: 5px;">&#9733;</span>
-    <span style="font-size: 20px; font-weight: bold; color: #28a745;">@ViewBag.AvgRating / 5</span>
-    <span style="color: gray; font-size: 14px; margin-left: 8px;">| @Model.Comments.Count() @_localizer["lượt đánh giá"]</span>
+                    <!-- Hiển thị điểm đánh giá tổng quan và số lượt đánh giá -->
+                    <div style="display: flex; align-items: center; justify-content: center; margin: 10px 0;">
+                        <span style="font-size: 24px; font-weight: bold; color: #FFD700; margin-right: 5px;">&#9733;</span>
+                        <span style="font-size: 20px; font-weight: bold; color: #28a745;">@ViewBag.AvgRating / 5</span>
+                        <span style="color: gray; font-size: 14px; margin-left: 8px;">| @Model.Comments.Count() @_localizer["lượt đánh giá"]</span>
                         <form asp-action="Unfavorite" asp-controller="Comments" method="post"
                               style="@(Convert.ToBoolean(ViewBag.IsFavorited) ? "" : "display: none;")">
                             @Html.AntiForgeryToken()
@@ -546,11 +547,11 @@
                                 </svg>
                             </button>
                         </form>
-</div>
+                    </div>
 
-<p style="border-bottom: 1px solid #ccc; margin: 15px 0;"></p>
+                    <p style="border-bottom: 1px solid #ccc; margin: 15px 0;"></p>
 
-<!-- Form đánh giá -->
+                    <!-- Form đánh giá -->
                     <form asp-action="AddReview" asp-controller="Comments" method="post" class="mb-3">
                         @Html.AntiForgeryToken()
 
@@ -585,7 +586,7 @@
 
                         <!-- Khung nhập nội dung đánh giá -->
                         <div class="form-group">
-                            <textarea name="Content" class="form-control" rows="3"  style="resize: none; border-radius: 6px; padding: 8px; font-size: 14px;"></textarea>
+                            <textarea name="Content" class="form-control" rows="3" style="resize: none; border-radius: 6px; padding: 8px; font-size: 14px;"></textarea>
                         </div>
 
                         <!-- Nút gửi đánh giá -->
@@ -602,15 +603,13 @@
                     <h7 class="mt-4">@_localizer["Đánh giá gần đây"]</h7>
                     <div>
                         <!-- Hiển thị nút hủy lưu tour nếu IsFavorited là true -->
-                   
+
 
                     </div>
                     <div class="list-group">
-                      
-               
+
+
                         <!-- Nút "Lưu tour" -->
-                        
-                      
                         @foreach (var review in Model.Comments)
                         {
                             <div class="list-group-item">
@@ -638,42 +637,42 @@
                             </div>
                         }
                     </div>
-                      <button id="reportBtn" class="btn btn-light"
-                        style=" margin-top:20px;padding: 5px 10px; font-size: 14px; border-radius: 5px; border: 1px solid #cccccc; color: #333;width:50px;margin-left:95%;margin-bottom:20px">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-flag-fill" viewBox="0 0 16 16">
-                        <path d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12 12 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A20 20 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a20 20 0 0 0 1.349-.476l.019-.007.004-.002h.001" />
-                    </svg>
-                </button>
+                    <button id="reportBtn" class="btn btn-light"
+                            style=" margin-top:20px;padding: 5px 10px; font-size: 14px; border-radius: 5px; border: 1px solid #cccccc; color: #333;width:50px;margin-left:95%;margin-bottom:20px">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-flag-fill" viewBox="0 0 16 16">
+                            <path d="M14.778.085A.5.5 0 0 1 15 .5V8a.5.5 0 0 1-.314.464L14.5 8l.186.464-.003.001-.006.003-.023.009a12 12 0 0 1-.397.15c-.264.095-.631.223-1.047.35-.816.252-1.879.523-2.71.523-.847 0-1.548-.28-2.158-.525l-.028-.01C7.68 8.71 7.14 8.5 6.5 8.5c-.7 0-1.638.23-2.437.477A20 20 0 0 0 3 9.342V15.5a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 1 0v.282c.226-.079.496-.17.79-.26C4.606.272 5.67 0 6.5 0c.84 0 1.524.277 2.121.519l.043.018C9.286.788 9.828 1 10.5 1c.7 0 1.638-.23 2.437-.477a20 20 0 0 0 1.349-.476l.019-.007.004-.002h.001" />
+                        </svg>
+                    </button>
 
-                <!-- Form Báo cáo -->
-                <div id="reportForm" style="display:none;">
-                    <form asp-action="Report" asp-controller="Comments" method="post">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="idTour" value="@Model.IdTour" />
+                    <!-- Form Báo cáo -->
+                    <div id="reportForm" style="display:none;">
+                        <form asp-action="Report" asp-controller="Comments" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="idTour" value="@Model.IdTour" />
 
-                        <div class="form-group">
-                         
-                            <select name="rating" class="form-control">
-                                <option value="">Chọn lý do báo cáo</option>
-                                <option value="Thông tin không chính xác">1 - Thông tin không chính xác</option>
-                                <option value="Giá cả không hợp lý">2 - Giá cả không hợp lý</option>
-                                <option value="Dịch vụ kém">3 - Dịch vụ kém</option>
-                                <option value="Lịch trình thay đổi đột ngột">4 - Lịch trình thay đổi đột ngột</option>
-                                <option value="Hướng dẫn viên thiếu chuyên nghiệp">5 - Hướng dẫn viên thiếu chuyên nghiệp</option>
-                            </select>
-                        </div>
+                            <div class="form-group">
 
-                        <!-- Trường nhập chi tiết lý do -->
-                        <div class="form-group">
-                        
-                            <textarea name="rating" class="form-control" rows="3" placeholder="Nhập lý do báo cáo"></textarea>
-                        </div>
+                                <select name="rating" class="form-control">
+                                    <option value="">Chọn lý do báo cáo</option>
+                                    <option value="Thông tin không chính xác">1 - Thông tin không chính xác</option>
+                                    <option value="Giá cả không hợp lý">2 - Giá cả không hợp lý</option>
+                                    <option value="Dịch vụ kém">3 - Dịch vụ kém</option>
+                                    <option value="Lịch trình thay đổi đột ngột">4 - Lịch trình thay đổi đột ngột</option>
+                                    <option value="Hướng dẫn viên thiếu chuyên nghiệp">5 - Hướng dẫn viên thiếu chuyên nghiệp</option>
+                                </select>
+                            </div>
 
-                        <button type="submit" style="margin-bottom:20px" class="btn btn-primary">Gửi báo cáo</button>
-                    </form>
-                </div>
+                            <!-- Trường nhập chi tiết lý do -->
+                            <div class="form-group">
 
-              
+                                <textarea name="rating" class="form-control" rows="3" placeholder="Nhập lý do báo cáo"></textarea>
+                            </div>
+
+                            <button type="submit" style="margin-bottom:20px" class="btn btn-primary">Gửi báo cáo</button>
+                        </form>
+                    </div>
+
+
                 </div>
             </div>
 
@@ -684,6 +683,15 @@
 
                     <form asp-action="Create" method="post">
                         <input type="hidden" name="tourId" value="@Model.IdTour" />
+
+                        <div class="form-group">
+                            <label>@_localizer["Ngày khởi hành"]:</label>
+                            <div class="d-flex mb-2 justify-content-between" id="departureOptions" style="gap: 5px; white-space: nowrap; overflow: hidden;"></div>
+                            <div>
+                                <input type="date" id="customDepartureDate" class="form-control" name="departureDate" onchange="onDatePickerChange()">
+                            </div>
+                            <input type="hidden" id="departureDate" name="departureDate">
+                        </div>
 
                         <div class="form-group">
                             <label for="quantityAdult">@_localizer["Người lớn"] (> 12 tuổi):</label>
@@ -704,7 +712,7 @@
                         </div>
 
                         <div class="form-group">
-                     
+
                             <input type="hidden" id="pricePerPerson" class="form-control" value="@Model.Price" readonly />
                         </div>
 
@@ -717,54 +725,114 @@
 
                         <button type="submit" class="btn btn-primary" style="background-color:orange">@_localizer["Đặt tour"]</button>
                     </form>
-                    </div>
-
                 </div>
+
+            </div>
             <div class="tour-pricing mt-4" style="background-color:#ecf0f5">
-    </div>
- </div>
-    <script src="~/js/jquery-3.4.1.min.js"></script>
-    <script src="~/js/bootstrap.min.js"></script>
-    <script src="~/js/jquery-3.4.1.min.js"></script>
-    <script src="~/js/popper.min.js"></script>
-    <script src="~/js/bootstrap.min.js"></script>
-    <script src="~/js/owl.carousel.min.js"></script>
-    <script src="~/js/jquery.animateNumber.min.js"></script>
-    <script src="~/js/jquery.waypoints.min.js"></script>
-    <script src="~/js/jquery.fancybox.min.js"></script>
-    <script src="~/js/aos.js"></script>
-    <script src="~/js/moment.min.js"></script>
-    <script src="~/js/daterangepicker.js"></script>
+            </div>
+        </div>
+        <script src="~/js/jquery-3.4.1.min.js"></script>
+        <script src="~/js/bootstrap.min.js"></script>
+        <script src="~/js/jquery-3.4.1.min.js"></script>
+        <script src="~/js/popper.min.js"></script>
+        <script src="~/js/bootstrap.min.js"></script>
+        <script src="~/js/owl.carousel.min.js"></script>
+        <script src="~/js/jquery.animateNumber.min.js"></script>
+        <script src="~/js/jquery.waypoints.min.js"></script>
+        <script src="~/js/jquery.fancybox.min.js"></script>
+        <script src="~/js/aos.js"></script>
+        <script src="~/js/moment.min.js"></script>
+        <script src="~/js/daterangepicker.js"></script>
 
-    <script src="~/js/typed.js"></script>
-    <script>
-        $(function () {
-            var slides = $('.slides'),
-                images = slides.find('img');
+        <script src="~/js/typed.js"></script>
 
-            images.each(function (i) {
-                $(this).attr('data-id', i + 1);
-            })
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                updateDepartureDates();
+            });
 
-            var typed = new Typed('.typed-words', {
-                strings: ["San Francisco.", " Paris.", " New Zealand.", " Maui.", " London."],
-                typeSpeed: 80,
-                backSpeed: 80,
-                backDelay: 4000,
-                startDelay: 1000,
-                loop: true,
-                showCursor: true,
-                preStringTyped: (arrayPos, self) => {
-                    arrayPos++;
-                    console.log(arrayPos);
-                    $('.slides img').removeClass('active');
-                    $('.slides img[data-id="' + arrayPos + '"]').addClass('active');
+            function updateDepartureDates(baseDate = new Date()) {
+                const departureOptions = document.getElementById("departureOptions");
+                const departureDateInput = document.getElementById("departureDate");
+                const datePicker = document.getElementById("customDepartureDate");
+
+                departureOptions.innerHTML = "";
+                let dates = [];
+
+                for (let i = 0; i < 3; i++) {
+                    let date = new Date(baseDate);
+                    date.setDate(baseDate.getDate() + i);
+                    let isoDate = date.toISOString().split("T")[0];
+                    let formattedDate = formatDateToDDMM(isoDate);
+
+                    let button = document.createElement("button");
+                        button.className = "btn btn-outline-primary rounded";
+                    button.textContent = formattedDate;
+                    button.setAttribute("data-date", isoDate);
+                    button.onclick = function (event) {
+                        event.preventDefault();
+                        departureDateInput.value = isoDate;
+                        datePicker.value = isoDate;
+                        document.querySelectorAll("#departureOptions button").forEach(btn => btn.classList.remove("active"));
+                        button.classList.add("active");
+                    };
+                    departureOptions.appendChild(button);
+                    dates.push(isoDate);
                 }
 
-            });
-        })
-    </script>
-@*     <script>
+                if (!departureDateInput.value || !dates.includes(departureDateInput.value)) {
+                    departureDateInput.value = dates[0];
+                    datePicker.value = dates[0];
+                }
+
+                document.querySelectorAll("#departureOptions button").forEach(btn => {
+                    btn.classList.toggle("active", btn.getAttribute("data-date") === departureDateInput.value);
+                });
+            }
+
+            function onDatePickerChange() {
+                const datePicker = document.getElementById("customDepartureDate");
+                const departureDateInput = document.getElementById("departureDate");
+                if (datePicker.value) {
+                    departureDateInput.value = datePicker.value;
+                    updateDepartureDates(new Date(datePicker.value));
+                }
+            }
+
+            function formatDateToDDMM(dateStr) {
+                let parts = dateStr.split("-");
+                return `${parts[2]}/${parts[1]}`;
+            }
+        </script>
+
+        <script>
+            $(function () {
+                var slides = $('.slides'),
+                    images = slides.find('img');
+
+                images.each(function (i) {
+                    $(this).attr('data-id', i + 1);
+                })
+
+                var typed = new Typed('.typed-words', {
+                    strings: ["San Francisco.", " Paris.", " New Zealand.", " Maui.", " London."],
+                    typeSpeed: 80,
+                    backSpeed: 80,
+                    backDelay: 4000,
+                    startDelay: 1000,
+                    loop: true,
+                    showCursor: true,
+                    preStringTyped: (arrayPos, self) => {
+                        arrayPos++;
+                        console.log(arrayPos);
+                        $('.slides img').removeClass('active');
+                        $('.slides img[data-id="' + arrayPos + '"]').addClass('active');
+                    }
+
+                });
+            })
+        </script>
+        @*     <script>
     const stars = document.querySelectorAll('.star');
     let selectedRating = 0;
 
@@ -860,7 +928,7 @@
                 });
             });
         </script>
-    <script src="~/js/custom.js"></script>
+        <script src="~/js/custom.js"></script>
 
 
 </html>
