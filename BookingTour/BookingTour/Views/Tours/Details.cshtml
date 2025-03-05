@@ -684,11 +684,12 @@
                     <form asp-action="Create" method="post">
                         <input type="hidden" name="tourId" value="@Model.IdTour" />
 
-                        <div class="form-group">
-                            <label>@_localizer["Ngày khởi hành"]:</label>
-                            <div class="d-flex mb-2 justify-content-between" id="departureOptions" style="gap: 5px; white-space: nowrap; overflow: hidden;"></div>
-                            <div>
-                                <input type="date" id="customDepartureDate" class="form-control" name="departureDate" onchange="onDatePickerChange()">
+                        <div class="form-group" id="departureContainer">
+                            <label id="departureLabel">@_localizer["Ngày khởi hành"]:</label>
+                            <div class="d-flex mb-2" id="departureOptions" style="gap: 5px; white-space: nowrap; overflow: hidden;"></div>
+                            <div id="departureDropdownContainer">
+                                <select id="customDepartureDate" class="form-control" name="departureDate" onchange="onDropdownChange()">
+                                </select>
                             </div>
                             <input type="hidden" id="departureDate" name="departureDate">
                         </div>
@@ -712,14 +713,12 @@
                         </div>
 
                         <div class="form-group">
-
                             <input type="hidden" id="pricePerPerson" class="form-control" value="@Model.Price" readonly />
                         </div>
 
                         <div class="form-group">
                             <label for="totalPrice">@_localizer["Tổng giá:"]</label>
                             <input type="text" id="totalPriceDisplay" class="form-control" readonly />
-                            <!-- Trường hidden để gửi giá trị totalPrice lên server -->
                             <input type="hidden" id="totalPrice" name="totalPrice" />
                         </div>
 
@@ -748,60 +747,89 @@
 
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-                updateDepartureDates();
+                fetchDepartureDates();
             });
 
-            function updateDepartureDates(baseDate = new Date()) {
+            async function fetchDepartureDates() {
+                const tourId = @Model.IdTour;
+                console.log(tourId);
+                const apiUrl = `https://localhost:7263/api/TourDetailAPI/tour/${tourId}`;
+                try {
+                    const response = await fetch(apiUrl);
+                    const data = await response.json();
+                    console.log(data);
+                    const departureDates = data.map(item => item.date).filter(date => date);
+                    updateDepartureOptions(departureDates);
+                } catch (error) {
+                    console.error("Error fetching departure dates:", error);
+                }
+            }
+
+            function updateDepartureOptions(dates) {
                 const departureOptions = document.getElementById("departureOptions");
                 const departureDateInput = document.getElementById("departureDate");
-                const datePicker = document.getElementById("customDepartureDate");
+                const dropdown = document.getElementById("customDepartureDate");
+                const dropdownContainer = document.getElementById("departureDropdownContainer");
+                const departureContainer = document.getElementById("departureContainer");
+                const departureLabel = document.getElementById("departureLabel");
 
                 departureOptions.innerHTML = "";
-                let dates = [];
+                dropdown.innerHTML = "";
 
-                for (let i = 0; i < 3; i++) {
-                    let date = new Date(baseDate);
-                    date.setDate(baseDate.getDate() + i);
-                    let isoDate = date.toISOString().split("T")[0];
+                if (dates.length === 0) {
+                    dropdownContainer.style.display = "none";
+                    departureContainer.style.display = "none";
+                    departureLabel.style.display = "none";
+                    return;
+                } else {
+                    dropdownContainer.style.display = "block";
+                    departureContainer.style.display = "block";
+                    departureLabel.style.display = "block";
+                }
+
+                dates.forEach((isoDate, index) => {
                     let formattedDate = formatDateToDDMM(isoDate);
 
                     let button = document.createElement("button");
-                        button.className = "btn btn-outline-primary rounded";
+                    button.className = "btn btn-outline-primary rounded";
                     button.textContent = formattedDate;
                     button.setAttribute("data-date", isoDate);
                     button.onclick = function (event) {
                         event.preventDefault();
                         departureDateInput.value = isoDate;
-                        datePicker.value = isoDate;
+                        dropdown.value = isoDate;
                         document.querySelectorAll("#departureOptions button").forEach(btn => btn.classList.remove("active"));
                         button.classList.add("active");
                     };
                     departureOptions.appendChild(button);
-                    dates.push(isoDate);
-                }
 
-                if (!departureDateInput.value || !dates.includes(departureDateInput.value)) {
+                    let option = document.createElement("option");
+                    option.value = isoDate;
+                    option.textContent = formattedDate;
+                    dropdown.appendChild(option);
+                });
+
+                if (dates.length > 0) {
                     departureDateInput.value = dates[0];
-                    datePicker.value = dates[0];
+                    dropdown.value = dates[0];
+                    document.querySelector("#departureOptions button").classList.add("active");
                 }
+            }
 
+            function onDropdownChange() {
+                const dropdown = document.getElementById("customDepartureDate");
+                const departureDateInput = document.getElementById("departureDate");
+                departureDateInput.value = dropdown.value;
                 document.querySelectorAll("#departureOptions button").forEach(btn => {
-                    btn.classList.toggle("active", btn.getAttribute("data-date") === departureDateInput.value);
+                    btn.classList.toggle("active", btn.getAttribute("data-date") === dropdown.value);
                 });
             }
 
-            function onDatePickerChange() {
-                const datePicker = document.getElementById("customDepartureDate");
-                const departureDateInput = document.getElementById("departureDate");
-                if (datePicker.value) {
-                    departureDateInput.value = datePicker.value;
-                    updateDepartureDates(new Date(datePicker.value));
-                }
-            }
-
             function formatDateToDDMM(dateStr) {
-                let parts = dateStr.split("-");
-                return `${parts[2]}/${parts[1]}`;
+                let date = new Date(dateStr);
+                let day = date.getUTCDate();
+                let month = date.getUTCMonth() + 1;
+                return `${day}/${month}`;
             }
         </script>
 
