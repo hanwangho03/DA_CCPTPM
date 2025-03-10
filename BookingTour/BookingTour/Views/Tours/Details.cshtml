@@ -686,11 +686,17 @@
 
                         <div class="form-group" id="departureContainer">
                             <label id="departureLabel">@_localizer["Ngày khởi hành"]:</label>
-                            <div class="d-flex mb-2" id="departureOptions" style="gap: 5px; white-space: nowrap; overflow: hidden;"></div>
+
+                            <!-- Container có thanh trượt ngang -->
+                            <div style="overflow-x: auto; white-space: nowrap; width: 100%; padding-bottom: 10px; margin-bottom:10px">
+                                <div class="d-flex mb-2" id="departureOptions" style="gap: 5px; white-space: nowrap;"></div>
+                            </div>
+
                             <div id="departureDropdownContainer">
                                 <select id="customDepartureDate" class="form-control" name="departureDate" onchange="onDropdownChange()">
                                 </select>
                             </div>
+
                             <input type="hidden" id="departureDate" name="departureDate">
                         </div>
 
@@ -746,7 +752,7 @@
         <script src="~/js/typed.js"></script>
 
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
+                        document.addEventListener("DOMContentLoaded", function () {
                 fetchDepartureDates();
             });
 
@@ -758,7 +764,17 @@
                     const response = await fetch(apiUrl);
                     const data = await response.json();
                     console.log(data);
-                    const departureDates = data.map(item => item.date).filter(date => date);
+
+                    // Lấy ngày hiện tại (UTC để đồng bộ với API)
+                    const today = new Date();
+                    today.setUTCHours(0, 0, 0, 0); // Đặt giờ về 00:00 UTC để tránh lỗi so sánh
+
+                    // Lọc chỉ lấy ngày khởi hành sau ngày hiện tại và sắp xếp theo thứ tự gần nhất đến xa nhất
+                    const departureDates = data
+                        .map(item => item.date)
+                        .filter(date => date && new Date(date) > today)
+                        .sort((a, b) => new Date(a) - new Date(b)); // Sắp xếp tăng dần (gần trước, xa sau)
+
                     updateDepartureOptions(departureDates);
                 } catch (error) {
                     console.error("Error fetching departure dates:", error);
@@ -829,8 +845,10 @@
                 let date = new Date(dateStr);
                 let day = date.getUTCDate();
                 let month = date.getUTCMonth() + 1;
-                return `${day}/${month}`;
+                let year = date.getUTCFullYear();
+                return `${day}/${month}/${year}`;
             }
+
         </script>
 
         <script>
