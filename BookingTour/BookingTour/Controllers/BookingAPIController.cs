@@ -52,7 +52,7 @@ public async Task<IActionResult> CreateBooking([FromBody] BookingRequestDTO requ
         IdBooking = newBookingId,
         IdInvoice = invoice.IdInvoice,
         IdTour = request.TourId,
-        CheckInDate = DateTime.Now,// Ngày khởi hành từ request
+        CheckInDate = request.CheckInDate,// Ngày khởi hành từ request
         CheckOutDate = DateTime.Now,
         IdHotel = tour.IdHotel,
         IdStatus = 4, // Mặc định "Chưa thanh toán"

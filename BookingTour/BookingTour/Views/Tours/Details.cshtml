@@ -806,7 +806,7 @@
 
                 const bookingData = {
                     TourId: parseInt(tourId),
-                    DepartureDate: departureDate,
+                    CheckInDate: departureDate, // ✅ Đổi từ DepartureDate thành CheckInDate
                     QuantityAdult: parseInt(quantityAdult),
                     QuantityChild: parseInt(quantityChild),
                     QuantityInfant: parseInt(quantityInfant),
@@ -816,9 +816,7 @@
                 try {
                     const response = await fetch('/api/Booking', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(bookingData)
                     });
 
@@ -834,9 +832,6 @@
 
                     // ✅ Chuyển hướng đến trang InvoiceDetails
                     window.location.href = `/Tours/Detaillnvoice?id=${result.invoiceId}`;
-
-
-
                 } catch (error) {
                     alert("Đặt tour thất bại, vui lòng thử lại!");
                     console.error("Lỗi:", error);
@@ -938,7 +933,7 @@
 
             function formatDateToDDMM(dateStr) {
                 let date = new Date(dateStr);
-                let day = date.getUTCDate();
+                let day = date.getUTCDate()+1;
                 let month = date.getUTCMonth() + 1;
                 let year = date.getUTCFullYear();
                 return `${day}/${month}/${year}`;
