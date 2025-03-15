@@ -5,11 +5,14 @@ namespace BookingTour.Models;
 
 public partial class TourDetail
 {
+    public long ID{ get; set; } // Khóa chính mới (tự động tăng)
+
     public long IdTour { get; set; }
 
     public long IdDes { get; set; }
 
     public string? Itinerary { get; set; }
+
     public DateTime? Date { get; set; }
 
     public virtual Destination IdDesNavigation { get; set; }   
