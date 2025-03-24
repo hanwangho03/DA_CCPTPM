@@ -1,0 +1,73 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+@model IEnumerable<BookingTour.Models.BookingViewModel>
+@if (ViewData["DeleteMessage"] != null)
+{
+    <div class="alert alert-success" style="color: white; background-color: #28a745; border-radius: 5px; padding: 15px;">
+        @ViewData["DeleteMessage"]
+    </div>
+}
+@{
+    var successMessage = TempData["SuccessMessage"];
+    var errorMessage = TempData["ErrorMessage"];
+}
+
+@if (successMessage != null)
+{
+    <div id="popup-success" style="position: fixed; top: 10px; right: 20px; background-color: #d4edda; border: 1px solid #c3e6cb; color: #155724; padding: 15px; border-radius: 5px; z-index: 9999; width: 300px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); display: block;">
+        <span class="closebtn" onclick="closePopup('popup-success')" style="font-size: 20px; color: #aaa; position: absolute; top: 10px; right: 10px; cursor: pointer;">&times;</span>
+        @successMessage
+    </div>
+}
+
+@if (errorMessage != null)
+{
+    <div id="popup-error" style="position: fixed; top: 10px; right: 20px; background-color: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; padding: 15px; border-radius: 5px; z-index: 9999; width: 300px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); display: block;">
+        <span class="closebtn" onclick="closePopup('popup-error')" style="font-size: 20px; color: #aaa; position: absolute; top: 10px; right: 10px; cursor: pointer;">&times;</span>
+        @errorMessage
+    </div>
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý Tour Detail</title>
+    <script>
+        async function fetchTourDetails() {
+            const response = await fetch('/api/TourDetail');
+            const data = await response.json();
+            document.getElementById('tourDetails').innerText = JSON.stringify(data, null, 2);
+        }
+
+        async function addTourDetail() {
+            const newTourDetail = {
+                IdTour: 1, // Chỉnh sửa theo dữ liệu thực tế
+                Description: "New detail for the tour",
+                Price: 500
+            };
+
+            const response = await fetch('/api/TourDetail', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(newTourDetail)
+            });
+
+            if (response.ok) {
+                alert("Thêm thành công!");
+                fetchTourDetails();
+            } else {
+                alert("Lỗi khi thêm!");
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Danh sách Tour Details</h1>
+    <pre id="tourDetails"></pre>
+    <button onclick="fetchTourDetails()">Tải dữ liệu</button>
+    <button onclick="addTourDetail()">Thêm Tour Detail</button>
+</body>
+</html>

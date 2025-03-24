@@ -103,7 +103,13 @@ builder.Services.AddTransient<SmsService>(provider =>
     var twilioPhoneNumber = configuration["Twilio:PhoneNumber"];
     return new SmsService(accountSid, authToken, twilioPhoneNumber);
 });
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        policy => policy.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader());
+});
 builder.Services.registerglogalizationandlocalization();
 // C?u h́nh Razor Pages, Controllers và Views
 builder.Services.AddRazorPages();
@@ -160,50 +166,53 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapRazorPages();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Tours}/{action=Index}/{id?}");
 
-app.MapAreaControllerRoute(
-    name: "ADMIN",
-    areaName: "Admin",
-    pattern: "Admin/{controller=Home}/{action=AccessDenied}/{id?}");
+app.UseCors("AllowAll");
 
-app.MapAreaControllerRoute(
-    name: "HOST",
-    areaName: "Host",
-    pattern: "Host/{controller=Home}/{action=AccessDenied}/{id?}");
+//app.MapControllerRoute(
+//    name: "default",
+//    pattern: "{controller=Tours}/{action=Index}/{id?}");
 
-app.MapControllerRoute(
-    name: "chatbot",
-    pattern: "chat",
-    defaults: new { controller = "Chat", action = "Index" });
+//app.MapAreaControllerRoute(
+//    name: "ADMIN",
+//    areaName: "Admin",
+//    pattern: "Admin/{controller=Home}/{action=AccessDenied}/{id?}");
+
+//app.MapAreaControllerRoute(
+//    name: "HOST",
+//    areaName: "Host",
+//    pattern: "Host/{controller=Home}/{action=AccessDenied}/{id?}");
+
+//app.MapControllerRoute(
+//    name: "chatbot",
+//    pattern: "chat",
+//    defaults: new { controller = "Chat", action = "Index" });
 
 app.MapHub<ChatHub>("/chathub");
 
-//app.UseEndpoints(endpoints =>
-//{
-//    endpoints.MapAreaControllerRoute(
-//        name: "ADMIN",
-//        areaName: "Admin",
-//        pattern: "Admin/{controller=Home}/{action=AccessDenied}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapAreaControllerRoute(
+        name: "ADMIN",
+        areaName: "Admin",
+        pattern: "Admin/{controller=Home}/{action=AccessDenied}/{id?}");
 
-//    endpoints.MapAreaControllerRoute(
-//        name: "HOST",
-//        areaName: "Host",
-//        pattern: "Host/{controller=Home}/{action=AccessDenied}/{id?}");
+    endpoints.MapAreaControllerRoute(
+        name: "HOST",
+        areaName: "Host",
+        pattern: "Host/{controller=Home}/{action=AccessDenied}/{id?}");
 
-//    endpoints.MapControllerRoute(
-//        name: "default",
-//        pattern: "{controller=Tours}/{action=Index}/{id?}");
-//    endpoints.MapHub<ChatHub>("/chathub");
-//});
-//app.UseEndpoints(endpoints =>
-//{
-//    endpoints.MapControllerRoute(
-//        name: "chatbot",
-//        pattern: "chat",
-//        defaults: new { controller = "Chat", action = "Index" });
-//});
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Tours}/{action=Index}/{id?}");
+    endpoints.MapHub<ChatHub>("/chathub");
+});
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "chatbot",
+        pattern: "chat",
+        defaults: new { controller = "Chat", action = "Index" });
+});
 
 app.Run();
