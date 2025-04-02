@@ -1,0 +1,123 @@
+﻿@model BookingTour.Models.Invoice // Đảm bảo namespace phù hợp
+
+@{
+    ViewData["Title"] = "Chi tiết Hóa đơn";
+    Layout = "_LayoutUser";
+}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/style.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <a href="/" class="btn btn-light">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8" />
+            </svg>
+            Trở về
+        </a>
+
+        <h4 class="mt-3">Thông tin Hóa đơn</h4>
+        <hr />
+
+        <form id="invoiceForm">
+            <input type="hidden" id="invoiceId" name="id" />
+
+            <div class="form-group">
+                <label>Mô tả:</label>
+                <textarea id="description" class="form-control" readonly></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Tổng Số Tiền:</label>
+                <input type="text" id="totalAmount" class="form-control" readonly />
+            </div>
+
+            <div class="form-group">
+                <label>Chọn mã giảm giá:</label>
+                <select id="promotionSelect" name="selectedPromotionId" class="form-control">
+                    <option value="">Không áp dụng</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Áp dụng giảm giá</button>
+        </form>
+
+        <form id="paymentForm" method="post" asp-action="payment" asp-controller="Payment">
+            <input type="hidden" name="id" id="paymentInvoiceId" />
+            <input type="hidden" name="total" id="paymentTotal" />
+            <button type="submit" class="btn btn-success mt-2">Thanh toán với VNPAY</button>
+        </form>
+    </div>
+
+    <script>
+        async function loadInvoice() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const invoiceId = urlParams.get("id");
+
+            if (!invoiceId) {
+                alert("Không tìm thấy hóa đơn!");
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/Booking/invoice/${invoiceId}`);
+                if (!response.ok) throw new Error("Lỗi khi lấy hóa đơn");
+
+                const invoice = await response.json();
+                document.getElementById("invoiceId").value = invoice.idInvoice;
+                document.getElementById("paymentInvoiceId").value = invoice.idInvoice;
+                document.getElementById("description").value = invoice.description;
+                document.getElementById("totalAmount").value = new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(invoice.totalAmount);
+                document.getElementById("paymentTotal").value = invoice.totalAmount;
+
+                await loadPromotions(invoice.totalAmount);
+            } catch (error) {
+                alert("Không thể tải hóa đơn, vui lòng thử lại!");
+                console.error("Lỗi:", error);
+            }
+        }
+
+        async function loadPromotions(totalAmount) {
+            try {
+                const response = await fetch('/api/promotions');
+                if (!response.ok) throw new Error("Lỗi khi lấy danh sách khuyến mãi");
+
+                const promotions = await response.json();
+                const selectElement = document.getElementById("promotionSelect");
+
+                promotions.forEach(promo => {
+                    const option = document.createElement("option");
+                    option.value = promo.idPmt;
+                    option.innerHTML = `${promo.name} - ${promo.discountAmount}% Off`;
+                    selectElement.appendChild(option);
+                });
+
+                selectElement.addEventListener("change", function () {
+                    const selectedPromo = promotions.find(p => p.idPmt == this.value);
+                    if (selectedPromo) {
+                        const discountAmount = (totalAmount * selectedPromo.discountAmount) / 100;
+                        const totalAfterDiscount = totalAmount - discountAmount;
+                        document.getElementById("totalAmount").value = new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(totalAfterDiscount);
+                        document.getElementById("paymentTotal").value = totalAfterDiscount;
+                    } else {
+                        document.getElementById("totalAmount").value = new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(totalAmount);
+                        document.getElementById("paymentTotal").value = totalAmount;
+                    }
+                });
+            } catch (error) {
+                console.error("Lỗi tải khuyến mãi:", error);
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", loadInvoice);
+    </script>
+
+    <script src="~/js/jquery-3.4.1.min.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+</body>
+</html>

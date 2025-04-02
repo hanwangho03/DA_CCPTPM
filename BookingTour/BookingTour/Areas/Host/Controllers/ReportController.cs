@@ -24,6 +24,7 @@ namespace BookingTour.Areas.Host.Controllers
   
             _userManager = userManager;
         }
+        [HttpGet]
         public async Task<IActionResult> TourReports(int pageNumber = 1, int pageSize = 6, string searchTerm = "")
         {
             // Lấy Id của người dùng hiện tại từ User.Identity.Name
