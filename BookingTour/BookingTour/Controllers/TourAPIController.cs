@@ -29,27 +29,34 @@ namespace BookingTour.Controllers
         public async Task<IActionResult> GetTours([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             var toursQuery = _context.Tours
-                .Include(t => t.IdHotelNavigation)
-                .Include(t => t.IdTransNavigation)
-                .Include(t => t.IdTypeNavigation)
-                .Where(t => t.ApprovalStatus == "Đã phê duyệt" && t.IsDelete == "N");
+                .Where(t => t.ApprovalStatus == "Đã phê duyệt" && t.IsDelete == "N")
+                .Select(t => new
+                {
+                    t.IdTour,
+                    t.Name,
+                    t.Description,
+                    t.Image,
+                    t.StartDate,
+                    t.EndDate,
+                    t.MaxQuantity,
+                    t.Price,
+                    t.IsDelete,
+                    t.IdType,
+                    IdTypeName = t.IdTypeNavigation.Name,
+                    t.IdTrans,
+                    IdTransName = t.IdTransNavigation.Name,
+                    t.IdHotel,
+                    IdHotelName = t.IdHotelNavigation.Name,
+                    t.ApprovalStatus,
+                    t.IdUser
+                });
 
-            int totalTours = await toursQuery.CountAsync();
             var tours = await toursQuery
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
-            var response = new
-            {
-                TotalItems = totalTours,
-                TotalPages = (int)Math.Ceiling((double)totalTours / pageSize),
-                CurrentPage = page,
-                PageSize = pageSize,
-                Data = tours
-            };
-
-            return Ok(response);
+            return Ok(tours);
         }
 
         [HttpGet("{id}")]
@@ -63,15 +70,42 @@ namespace BookingTour.Controllers
                 return NotFound();
             }
 
-            var images = await _context1.Images.Where(i => i.IdTour == tour.IdTour).ToListAsync();
-            tour.images = images;
+            // Lấy danh sách hình ảnh từ bảng Images
+            var images = await _context1.Images
+                .Where(i => i.IdTour == tour.IdTour)
+                .ToListAsync();
 
-            return Ok(tour);
+            // Tạo đối tượng trả về với cấu trúc mong muốn
+            var tourResponse = new
+            {
+                tour.IdTour,
+                tour.Name,
+                tour.Description,
+                tour.Image,
+                tour.StartDate,
+                tour.EndDate,
+                tour.MaxQuantity,
+                tour.Price,
+                tour.IsDelete,
+                tour.IdType,
+                tour.IdTrans,
+                tour.IdHotel,
+                tour.ApprovalStatus,
+                tour.IdUser,
+                Images = images, // Danh sách hình ảnh của tour
+                IdUserNavigation = tour.IdUserNavigation != null ? new
+                {
+                    tour.IdUserNavigation.Id,
+                    tour.IdUserNavigation.UserName
+                } : null
+            };
+
+            return Ok(tourResponse);
         }
 
         // POST: api/tourapi
         [HttpPost]
-        [Authorize] // Yêu cầu đăng nhập
+        [Authorize]
         public async Task<IActionResult> CreateTour([FromBody] Tour tour)
         {
             if (!ModelState.IsValid)
@@ -79,7 +113,7 @@ namespace BookingTour.Controllers
                 return BadRequest(ModelState);
             }
 
-            tour.ApprovalStatus = "Chờ phê duyệt"; // Mặc định khi tạo
+            tour.ApprovalStatus = "Chờ phê duyệt";
             tour.IsDelete = "N";
             _context.Tours.Add(tour);
             await _context.SaveChangesAsync();
@@ -120,7 +154,7 @@ namespace BookingTour.Controllers
                 return NotFound();
             }
 
-            tour.IsDelete = "Y"; // Soft delete
+            tour.IsDelete = "Y";
             await _context.SaveChangesAsync();
 
             return NoContent();

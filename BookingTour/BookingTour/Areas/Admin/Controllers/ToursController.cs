@@ -21,7 +21,10 @@ namespace BookingTour.Areas.Admin.Controllers
         {
             _context = context;
         }
-
+        public IActionResult IndexTourdetails()
+        {
+            return View();
+        }
         // GET: Tours
         public async Task<IActionResult> Index(int page = 1, string searchTerm = "")
         {
