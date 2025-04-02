@@ -35,3 +35,4 @@
 *bin
 *appsettings.json
 *BookingTour.csproj
+*YourExistingDbContextName.cs
