@@ -1,4 +1,4 @@
-﻿@model BookingTour.Models.Invoice // Đảm bảo namespace phù hợp
+﻿@model BookingTour.Models.Invoice
 
 @{
     ViewData["Title"] = "Chi tiết Hóa đơn";
@@ -47,14 +47,12 @@
             <button type="submit" class="btn btn-primary">Áp dụng giảm giá</button>
         </form>
 
-        <form id="paymentForm" method="post" asp-action="payment" asp-controller="Payment">
-            <input type="hidden" name="id" id="paymentInvoiceId" />
-            <input type="hidden" name="total" id="paymentTotal" />
-            <button type="submit" class="btn btn-success mt-2">Thanh toán với VNPAY</button>
-        </form>
+        <button id="btnPayment" class="btn btn-success mt-2">Thanh toán với VNPAY</button>
     </div>
 
     <script>
+        let currentTotalAmount = 0;
+
         async function loadInvoice() {
             const urlParams = new URLSearchParams(window.location.search);
             const invoiceId = urlParams.get("id");
@@ -70,10 +68,9 @@
 
                 const invoice = await response.json();
                 document.getElementById("invoiceId").value = invoice.idInvoice;
-                document.getElementById("paymentInvoiceId").value = invoice.idInvoice;
                 document.getElementById("description").value = invoice.description;
                 document.getElementById("totalAmount").value = new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(invoice.totalAmount);
-                document.getElementById("paymentTotal").value = invoice.totalAmount;
+                currentTotalAmount = invoice.totalAmount;
 
                 await loadPromotions(invoice.totalAmount);
             } catch (error) {
@@ -102,17 +99,50 @@
                     if (selectedPromo) {
                         const discountAmount = (totalAmount * selectedPromo.discountAmount) / 100;
                         const totalAfterDiscount = totalAmount - discountAmount;
+                        currentTotalAmount = totalAfterDiscount;
                         document.getElementById("totalAmount").value = new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(totalAfterDiscount);
-                        document.getElementById("paymentTotal").value = totalAfterDiscount;
                     } else {
+                        currentTotalAmount = totalAmount;
                         document.getElementById("totalAmount").value = new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(totalAmount);
-                        document.getElementById("paymentTotal").value = totalAmount;
                     }
                 });
             } catch (error) {
                 console.error("Lỗi tải khuyến mãi:", error);
             }
         }
+
+        document.getElementById("btnPayment").addEventListener("click", async function () {
+            const invoiceId = document.getElementById("invoiceId").value;
+
+            if (!invoiceId) {
+                alert("Không có hóa đơn để thanh toán!");
+                return;
+            }
+
+            try {
+                const response = await fetch("/api/PaymentAPI/payment", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        id: invoiceId,
+                        total: currentTotalAmount
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.url) {
+                    window.location.href = result.url;
+                } else {
+                    alert(result.message || "Thanh toán thất bại!");
+                }
+            } catch (error) {
+                console.error("Lỗi khi gửi thanh toán:", error);
+                alert("Không thể thanh toán, vui lòng thử lại!");
+            }
+        });
 
         document.addEventListener("DOMContentLoaded", loadInvoice);
     </script>
